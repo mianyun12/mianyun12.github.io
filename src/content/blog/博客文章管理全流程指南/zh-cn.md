@@ -4,6 +4,7 @@ pubDate: 2026-08-14
 description: 记录本博客系统的文章更新、清理与自动化部署全流程。
 author: 眠云
 slugId: blog-management-guide
+image: "./cover.jpg"
 tags: ["指南"]
 category: "指南"
 draft: false
@@ -52,3 +53,85 @@ git commit -m "1"
 git push
 ```
 
+**第四部分：如何给文章添加「封面图」**
+
+封面图会显示在博客首页的文章卡片顶部（或背景）以及文章详情页顶部。
+
+操作步骤：
+
+1. **放置图片**：将你的封面图片（如 `cover.jpg`、`banner.png`）直接放到对应文章的文件夹内。
+   - 例如：`src/content/blog/你的文章名称/cover.jpg`
+2. **在 Frontmatter 中声明**：打开该文章的 `zh-cn.md`，在顶部的 `---` 区域添加 `image` 字段：
+
+```
+---
+title: 博客文章管理全流程指南
+pubDate: 2026-05-20
+description: 记录本博客系统的文章更新、清理与自动化部署全流程。
+author: 眠云
+slugId: blog-management-guide
+image: "./cover.jpg"      # 👈 本地图片直接写相对路径（或写在线外链 https://...）
+tags: ["指南"]
+category: "指南"
+draft: false
+---
+```
+
+> **小技巧（封面显示风格）**： 在 `src/config.ts` 的 `siteConfig.theme.postCard.imageMode` 中：
+>
+> - `"top"`：封面图显示在卡片上方。
+> - `"background"`：封面图作为卡片背景，并带有由右向左的渐变透明效果。
+
+**第五部分：如何在文章正文中插入图片**
+
+在文章内部插图有以下三种常见方式：
+
+**方式一：同目录相对路径（最推荐，跟随文章一起管理）**
+
+![](./zh-cn.assets/657ab64284876b47a9f1e394ab1ee844187345532.png)
+
+- **做法**：将正文插图直接放在文章文件夹内，或者在文章文件夹里建一个 `images/` 子文件夹。
+
+  - 目录结构：
+
+    Plaintext
+
+    ```
+    src/content/blog/你的文章名称/
+    ├── zh-cn.md
+    ├── cover.jpg
+    └── images/
+        └── demo.png
+    ```
+
+- **正文语法**：
+
+  ```
+  ![示意图说明](./images/demo.png)
+  ```
+
+- **优势**：以后删除该文章文件夹时，所有配图会一并清理，不会在全局遗留垃圾文件。
+
+**方式二：公共资源目录 `public/` 引入**
+
+
+
+- ![](./zh-cn.assets/e2bf0bf30631a062a89a77a08d32d7a7187345532.jpg)**做法**：将图片放到项目根目录的 `public/images/` 下（如 `public/images/avatar.png`)。
+
+- **正文语法**：
+
+  ```
+  ![头像](/images/avatar.png)
+  ```
+
+- **适用场景**：多篇文章共同复用的全局图片（如赞赏码、通用架构图等）。
+
+**方式三：在线图床 / 网页外链**
+
+![](./zh-cn.assets/f72ebd66e68bd8629e5f5b2d7e3edf3c187345532.png)
+
+- **正文语法**：
+
+  ```
+  ![图床图片](https://你的图床域名/path/to/image.jpg)
+  ```

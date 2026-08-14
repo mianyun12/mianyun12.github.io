@@ -47,6 +47,7 @@ pubDate: {today}
 description: 请在此处填写文章简述
 author: 眠云
 slugId: {slug_id}
+image: "./cover.jpg"
 tags: ["随笔"]
 category: "随笔"
 draft: false
