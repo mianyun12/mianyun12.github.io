@@ -1,6 +1,6 @@
 ---
 title: 博客文章管理全流程指南
-pubDate: 2026-05-20
+pubDate: 2026-08-14
 description: 记录本博客系统的文章更新、清理与自动化部署全流程。
 author: 眠云
 slugId: blog-management-guide
@@ -22,7 +22,10 @@ draft: false
 为了确保每篇文章的元数据（如发布时间戳、标签格式等）绝对规范，强烈建议依赖项目自带的脚本，尽量不要手动新建文件。
 
 请在 VS Code 的原生终端面板中，键入并执行以下命令：
+
+```
 python script/newpost.py "你的文章标题"
+```
 
 执行结束后，对应名称的目录和 md 文件就会自动生成。直接点击打开该文件，在头部虚线（Frontmatter）的下方正常录入你的正文即可。
 
