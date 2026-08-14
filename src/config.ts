@@ -39,7 +39,7 @@ export const profileConfig: ProfileConfig = {
     avatar: "assets/Motues.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
     name: "眠云",
     description: "Lightning Strike Horizon",
-    indexPage: "https://1031260154.github.io/mianyun.github.io",
+    indexPage: "https://mianyun12.github.io",
     startYear: 2026,
 }
 
