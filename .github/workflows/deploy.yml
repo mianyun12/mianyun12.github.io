@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+  workflow_dispatch:
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -31,12 +34,23 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       
       - name: Build
         run: pnpm build
+
+      - name: Verify build output
+        shell: bash
+        run: |
+          test -s dist/index.html
+          test -s dist/pagefind/pagefind.js
+          test -f dist/blog/csapp-data-lab-位运算与浮点数实验全流程/index.html
+          grep -q 'csapp-data-lab' dist/index.html
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3

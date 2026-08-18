@@ -148,7 +148,7 @@
 }
 
 .markdown-content blockquote {
-  font-family: "LXGW Bright Medium";
+  font-family: "Noto Serif SC", "PingFang SC", "Microsoft YaHei", "Segoe UI", serif;
   margin: 1.5rem 0;
   padding: 0.1rem 1.2rem;
   border-left: 4px solid var(--quote-left-color);
@@ -629,7 +629,7 @@
 }
 
 .quote {
-    font-family: "LXGW Bright Medium";
+    font-family: "Noto Serif SC", "PingFang SC", "Microsoft YaHei", "Segoe UI", serif;
     position: relative;
     padding: 0 3rem;
 	  margin: 3.5rem 0;

@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
     "@astrojs/svelte": "^7.2.4",
-    "@chinese-fonts/lxgwwenkaibright": "^2.0.0",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@fontsource/eb-garamond": "^5.2.7",
     "@fontsource/noto-serif-sc": "^5.2.9",
