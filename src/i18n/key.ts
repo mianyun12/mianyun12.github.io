@@ -19,6 +19,38 @@ export interface Translation {
             friends: string;
         };
     };
+    about: {
+        eyebrow: string;
+        title: string;
+        subtitle: string;
+        greeting: string;
+        introTitle: string;
+        quote: string;
+        quoteNote: string;
+        showcaseEyebrow: string;
+        showcaseTitle: string;
+        showcaseDescription: string;
+        readmeEyebrow: string;
+        readmeTitle: string;
+        readmeDescription: string;
+        playlogEyebrow: string;
+        playlogTitle: string;
+        playlogDescription: string;
+        details: string;
+        detailsUnavailable: string;
+        comingSoon: string;
+        github: string;
+        bilibili: string;
+        previous: string;
+        next: string;
+        pauseCarousel: string;
+        resumeCarousel: string;
+        carouselPosition: string;
+        gameUid: string;
+        showUid: string;
+        hideUid: string;
+        noUid: string;
+    };
     toc:string;
     category: string;
     pageNavigation: {

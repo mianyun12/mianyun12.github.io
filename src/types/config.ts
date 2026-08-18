@@ -46,3 +46,43 @@ export type LicenseConfig = {
 	name: string;
 	url: string;
 };
+
+export type AboutAccent = "pink" | "lilac" | "peach" | "blue" | "mint";
+
+export type AboutProject = {
+    title: string;
+    description: string;
+    tags: string[];
+    status: "online" | "soon";
+    href?: string;
+    accent: AboutAccent;
+};
+
+export type AboutGame = {
+    title: string;
+    image: string;
+    uid?: string;
+    href?: string;
+    accent: AboutAccent;
+};
+
+export type AboutProfileLink = {
+    name: string;
+    url: string;
+    icon: "github" | "bilibili" | string;
+};
+
+export type AboutConfig = {
+    profile: {
+        avatar: string;
+        links: AboutProfileLink[];
+    };
+    projects: AboutProject[];
+    games: AboutGame[];
+    readme: {
+        title: string;
+        paragraphs: string[];
+        stack: string[];
+        href?: string;
+    };
+};

@@ -1,0 +1,517 @@
+---
+import { aboutConfig } from "@/config";
+import i18nit from "@i18n/translation";
+import { Icon } from "astro-icon/components";
+import existingAvatar from "@assets/Motues.jpg";
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = i18nit(lang);
+const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href));
+const accentClass = (accent: string) => `about-accent-${accent}`;
+const avatarFallback = existingAvatar.src;
+const iconName = (icon: string) => icon === "github" ? "fa6-brands:github" : icon === "bilibili" ? "simple-icons:bilibili" : "fa6-solid:link";
+---
+
+<div class="about-showcase">
+  <header class="about-hero">
+    <div>
+      <p class="about-eyebrow">{t("about.eyebrow")}</p>
+      <h1>{t("about.title")}</h1>
+    </div>
+    <p class="about-hero-note">{t("about.subtitle")}</p>
+  </header>
+
+  <section class="about-intro" aria-labelledby="about-intro-title">
+    <article class="about-card about-intro-card">
+      <p class="about-kicker">{t("about.greeting")}</p>
+      <div class="about-profile-head">
+        <div class="about-avatar-column">
+          <img class="about-avatar" src={aboutConfig.profile.avatar} alt={lang === "en" ? "Mianyun avatar" : "眠云头像"} onerror={`this.onerror=null;this.src='${avatarFallback}'`} />
+          <div class="about-social-links" aria-label={lang === "en" ? "Social links" : "社交主页"}>
+            {aboutConfig.profile.links.map((link) => (
+              <a class="about-social-button" href={link.url} target="_blank" rel="noreferrer" aria-label={link.name}>
+                <Icon name={iconName(link.icon)} class="about-social-icon" />
+                <span>{link.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 id="about-intro-title">
+            {lang === "en" ? <span>I am <span class="about-accent-text">Mianyun</span></span> : <span>我是 <span class="about-accent-text">眠云</span></span>}
+          </h2>
+        </div>
+      </div>
+      <div class="about-tags" aria-label="Skills">
+        <span>网安本科</span>
+        <span>WHU</span>
+        <span>广东</span>
+        <span>二次元()</span>
+      </div>
+      {lang === "en" ? (
+        <p class="about-body">A student who once had more ideas than the hands to build them.<br />I have spent the last two years turning those pictures into code,<br />making mistakes, starting over, and getting things to run.<br />This is the process of turning “I want to make it” into “I made it”.</p>
+      ) : (
+        <p class="about-body">一个曾经有很多想法、却没能亲手写出来的学生。<br />慢慢学着把脑海里的画面落进代码里<br />——做错过、推翻过，也跑通过。<br />这里是把“想做的事”一点点变成“做过的事”的过程。</p>
+      )}
+    </article>
+
+    <article class="about-card about-quote-card">
+      <h2>
+        {lang === "en" ? (
+          <span>Keep <span class="about-accent-text">doing</span><br />the things you love,<br />one by one, as well as you can.</span>
+        ) : (
+          <span>把<span class="about-accent-text">喜欢</span>的事，<br />一件一件，<br />慢慢做到<span class="about-accent-text">最好</span>。</span>
+        )}
+      </h2>
+      <p>{t("about.quoteNote")}</p>
+    </article>
+  </section>
+
+  <section class="about-section" aria-labelledby="about-showcase-title">
+    <div class="about-section-heading">
+      <div>
+        <p class="about-eyebrow">{t("about.showcaseEyebrow")}</p>
+        <h2 id="about-showcase-title">{t("about.showcaseTitle")}</h2>
+      </div>
+      <p>{t("about.showcaseDescription")}</p>
+    </div>
+
+    <div class="about-carousel" data-carousel="projects" tabindex="0" aria-roledescription="carousel" aria-label={t("about.showcaseTitle")}>
+      <button class="about-carousel-arrow about-carousel-prev" type="button" aria-label={t("about.previous")}>
+        <span aria-hidden="true">←</span>
+      </button>
+      <div class="about-carousel-viewport">
+        <div class="about-carousel-track">
+          {aboutConfig.projects.map((project, index) => (
+            <article class={`about-project-card about-card ${accentClass(project.accent)}`} data-carousel-item aria-roledescription="slide" aria-label={t("about.carouselPosition", { current: index + 1, total: aboutConfig.projects.length })}>
+              <div class="about-project-art" aria-hidden="true">
+                <span class="about-project-number">{String(index + 1).padStart(2, "0")}</span>
+                <span class="about-status"><i></i>{project.status === "online" ? "ON LINE" : "SOON"}</span>
+              </div>
+              <div class="about-project-content">
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <div class="about-tags">
+                  {project.tags.map((tag) => <span>{tag}</span>)}
+                </div>
+                {project.status === "online" && project.href ? (
+                  <a class="about-outline-button" href={project.href} target={isExternal(project.href) ? "_blank" : undefined} rel={isExternal(project.href) ? "noreferrer" : undefined}>
+                    {t("about.details")}
+                  </a>
+                ) : (
+                  <span class="about-outline-button is-disabled" aria-disabled="true">{project.status === "online" ? t("about.detailsUnavailable") : t("about.comingSoon")}</span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+      <button class="about-carousel-arrow about-carousel-next" type="button" aria-label={t("about.next")}>
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="about-section about-playlog" aria-labelledby="about-playlog-title">
+    <div class="about-section-heading">
+      <div>
+        <p class="about-eyebrow">{t("about.playlogEyebrow")}</p>
+        <h2 id="about-playlog-title">{t("about.playlogTitle")}</h2>
+      </div>
+      <p>{t("about.playlogDescription")}</p>
+    </div>
+    <div class="about-carousel" data-carousel="games" tabindex="0" aria-roledescription="carousel" aria-label={t("about.playlogTitle")}>
+      <button class="about-carousel-arrow about-carousel-prev" type="button" aria-label={t("about.previous")}>
+        <span aria-hidden="true">←</span>
+      </button>
+      <div class="about-carousel-viewport">
+        <div class="about-carousel-track">
+          {aboutConfig.games.map((game, index) => (
+            <article class={`about-game-card about-card ${accentClass(game.accent)}`} data-carousel-item aria-roledescription="slide" aria-label={t("about.carouselPosition", { current: index + 1, total: aboutConfig.games.length })}>
+              <div class="about-game-art">
+                <img class="about-game-image" src={game.image} alt={game.title} loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('is-missing')" />
+              </div>
+              <div class="about-game-footer">
+                <h3>{game.title}</h3>
+                <div class="about-game-uid-row">
+                  <button class="about-uid-button" type="button" data-uid-toggle data-uid-target={`game-uid-${index}`} data-uid-hide-label={t("about.hideUid")} aria-expanded="false" aria-controls={`game-uid-${index}`}>
+                    {t("about.showUid")}
+                  </button>
+                  <p class="about-game-uid" id={`game-uid-${index}`} data-uid-value={game.uid || ""} hidden>
+                    <span>{t("about.gameUid")}：</span>{game.uid || t("about.noUid")}
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+      <button class="about-carousel-arrow about-carousel-next" type="button" aria-label={t("about.next")}>
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="about-section about-readme" aria-labelledby="about-readme-title">
+    <div class="about-section-heading">
+      <div>
+        <p class="about-eyebrow">{t("about.readmeEyebrow")}</p>
+        <h2 id="about-readme-title">{t("about.readmeTitle")}</h2>
+      </div>
+      <p>{t("about.readmeDescription")}</p>
+    </div>
+    <article class="about-card about-readme-card">
+      <h3>{aboutConfig.readme.title}</h3>
+      {aboutConfig.readme.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <hr />
+      <p class="about-stack">{aboutConfig.readme.stack.join("  闂? ")}</p>
+      {aboutConfig.readme.href && (
+        <a class="about-outline-button" href={aboutConfig.readme.href} target={isExternal(aboutConfig.readme.href) ? "_blank" : undefined} rel={isExternal(aboutConfig.readme.href) ? "noreferrer" : undefined}>
+          {t("about.details")}
+        </a>
+      )}
+    </article>
+  </section>
+</div>
+
+<style>
+  .about-showcase {
+    --about-ink: #281528;
+    --about-muted: #775f6a;
+    --about-pink: #ff7f9e;
+    --about-paper: #fffaf5;
+    --about-line: rgba(104, 62, 80, 0.13);
+    max-width: 92vw;
+    margin: 0 auto;
+    padding: 4.5rem 0 6rem;
+    color: var(--about-ink);
+  }
+
+  .about-hero,
+  .about-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .about-hero { margin-bottom: 2.7rem; }
+  .about-hero h1,
+  .about-section-heading h2,
+  .about-card h2,
+  .about-card h3 { font-family: "LXGW Bright Medium", "STXingkai", "KaiTi", serif; }
+
+  .about-hero h1 { margin: 0; font-size: clamp(3rem, 6vw, 5rem); line-height: .95; letter-spacing: .04em; }
+  .about-eyebrow { margin: 0 0 .65rem; color: #a78e9d; font: 700 .78rem/1.2 ui-monospace, monospace; letter-spacing: .35em; }
+  .about-hero-note, .about-section-heading > p { max-width: 27rem; margin: 0 0 .25rem; color: var(--about-muted); font-size: .98rem; line-height: 1.8; text-align: right; }
+  .about-card { border: 1px solid var(--about-line); border-radius: 2rem; background: var(--about-paper); box-shadow: 0 1.2rem 3.5rem rgba(92, 57, 69, .08); overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
+  .about-card:hover { transform: translateY(-5px); box-shadow: 0 1.5rem 4rem rgba(92, 57, 69, .14); }
+  .about-intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .95fr); gap: 1.4rem; margin-bottom: 5rem; }
+  .about-intro-card { padding: clamp(2rem, 4vw, 3.2rem); background: linear-gradient(135deg, #ffdce4, #ffe7ca); }
+  .about-kicker { margin: 0 0 .75rem; color: #bc687c; font-size: .88rem; }
+  .about-profile-head { display: flex; align-items: center; gap: 1.25rem; }
+  .about-avatar-column { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; }
+  .about-avatar { width: clamp(5.5rem, 12vw, 8rem); aspect-ratio: 1; flex: 0 0 auto; object-fit: cover; border: .35rem solid rgba(255,255,255,.7); border-radius: 50%; box-shadow: 0 .8rem 1.5rem rgba(120, 74, 87, .18); background: #fffaf5; }
+  .about-social-links { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .8rem; }
+  .about-social-button { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid rgba(125, 72, 88, .2); border-radius: 999px; padding: .42rem .75rem; background: rgba(255,255,255,.62); color: #5e4352; font-size: .74rem; font-weight: 700; text-decoration: none; transition: transform .2s ease, background .2s ease, color .2s ease; }
+  .about-social-button:hover, .about-social-button:focus-visible { transform: translateY(-2px); background: var(--about-ink); color: #fff; }
+  .about-social-icon { width: .9rem; height: .9rem; }
+  .about-card h2 { margin: 0; font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1.15; }
+  .about-accent-text { color: var(--about-pink); }
+  .about-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.2rem 0 1.5rem; }
+  .about-tags span { border: 1px solid rgba(125, 72, 88, .13); border-radius: 999px; padding: .25rem .75rem; background: rgba(255,255,255,.58); color: #765664; font: 600 .74rem/1.3 ui-monospace, monospace; }
+  .about-body, .about-readme-card p { color: var(--about-muted); line-height: 1.9; }
+  .about-body { margin: 0; }
+  .about-quote-card { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 4vw, 3.5rem); }
+  .about-quote-card h2 { white-space: pre-line; color: #6e5963; }
+  .about-quote-card p { margin: 1.5rem 0 0; color: #927f88; font-size: .9rem; }
+  .about-section { margin-bottom: 5rem; }
+  .about-section-heading { margin-bottom: 1.5rem; padding-bottom: .9rem; border-bottom: 1px dashed var(--about-line); }
+  .about-section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1; }
+  .about-carousel { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .75rem; align-items: center; }
+  .about-carousel-viewport { min-width: 0; overflow: hidden; }
+  .about-carousel-track { display: flex; gap: 1.25rem; will-change: transform; transition: transform .55s cubic-bezier(.22,.61,.36,1); }
+  .about-carousel-track > .about-card { flex: 0 0 calc((100% - 2.5rem) / 3); min-width: 0; }
+  .about-carousel-arrow { width: 2.55rem; height: 2.55rem; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--about-line); border-radius: 50%; background: var(--about-paper); color: var(--about-ink); cursor: pointer; font-size: 1.15rem; transition: transform .2s ease, background .2s ease, color .2s ease; z-index: 1; }
+  .about-carousel-arrow:hover, .about-carousel-arrow:focus-visible { transform: scale(1.08); background: var(--about-ink); color: #fff; }
+  .about-carousel-arrow:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+  .about-carousel-track > .about-card.is-active { box-shadow: 0 1.5rem 4rem rgba(255, 127, 158, .2); }
+  .about-project-art, .about-game-art { position: relative; height: 10.5rem; display: flex; align-items: center; padding: 1.3rem; }
+  .about-project-number { color: rgba(73, 43, 66, .2); font: 700 5.5rem/.8 "STXingkai", "KaiTi", cursive; }
+  .about-status { position: absolute; right: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .45rem; border: 1px solid rgba(255,255,255,.82); border-radius: 999px; padding: .45rem .8rem; background: rgba(255,255,255,.62); color: #5d4a56; font: 700 .65rem/1 ui-monospace, monospace; letter-spacing: .18em; }
+  .about-status i { width: .45rem; height: .45rem; border-radius: 50%; background: var(--about-pink); box-shadow: 0 0 .5rem var(--about-pink); }
+  .about-project-content { padding: 1.2rem 1.25rem 1.35rem; }
+  .about-project-content h3, .about-game-footer h3, .about-readme-card h3 { margin: 0; font-size: 1.45rem; }
+  .about-project-content p { min-height: 3.2rem; margin: .7rem 0 1rem; color: var(--about-muted); font-size: .88rem; line-height: 1.65; }
+  .about-project-content .about-tags { margin: 0 0 1.2rem; }
+  .about-outline-button { display: inline-flex; align-items: center; min-height: 2.55rem; border: 1px solid #ffb3c3; border-radius: 999px; padding: .5rem 1rem; color: var(--about-ink); font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-decoration: none; transition: background .2s ease, color .2s ease; }
+  .about-outline-button:hover, .about-outline-button:focus-visible { background: var(--about-ink); color: #fff; }
+  .about-outline-button.is-disabled { opacity: .65; cursor: default; }
+  .about-readme-card { padding: clamp(1.8rem, 4vw, 3rem); }
+  .about-readme-card h3 { margin-bottom: 1.25rem; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+  .about-readme-card p { margin: .8rem 0; }
+  .about-readme-card hr { margin: 1.6rem 0; border: 0; border-top: 1px dashed var(--about-line); }
+  .about-readme-card .about-stack { color: #c17689; font: .78rem/1.7 ui-monospace, monospace; letter-spacing: .08em; }
+  .about-game-card { display: flex; flex-direction: column; background: var(--about-paper); }
+  .about-game-art { position: relative; height: auto; aspect-ratio: 16 / 10; min-height: 13rem; overflow: hidden; padding: 0; background: linear-gradient(135deg, #f3eaff, #dce9ff); }
+  .about-game-art.is-missing::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.75), transparent 34%), linear-gradient(135deg, rgba(255,216,228,.95), rgba(220,233,255,.95)); }
+  .about-game-image { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+  .about-game-card:hover .about-game-image { transform: scale(1.04); }
+  .about-game-footer { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: .7rem; padding: 1rem 1.2rem 1.2rem; }
+  .about-game-footer h3 { margin: 0; font-size: 1.3rem; }
+  .about-game-uid-row { display: flex; align-items: center; gap: .65rem; min-height: 2rem; max-width: 100%; }
+  .about-uid-button { border: 1px solid #ffb3c3; border-radius: 999px; padding: .42rem .8rem; background: transparent; color: var(--about-ink); cursor: pointer; font: 700 .72rem/1 ui-monospace, monospace; transition: background .2s ease, color .2s ease; }
+  .about-uid-button:hover, .about-uid-button:focus-visible { background: var(--about-ink); color: #fff; }
+  .about-game-uid { margin: 0; padding: .42rem .65rem; border-radius: .65rem; background: rgba(255, 127, 158, .11); color: var(--about-muted); font: .78rem/1.4 ui-monospace, monospace; white-space: nowrap; }
+  .about-game-uid span { color: #b5667c; font-weight: 700; }
+  .about-accent-pink .about-project-art, .about-accent-pink .about-game-art { background: linear-gradient(135deg, #ffd8e4, #ffe8d4); }
+  .about-accent-lilac .about-project-art, .about-accent-lilac .about-game-art { background: linear-gradient(135deg, #f3eaff, #dce9ff); }
+  .about-accent-blue .about-project-art, .about-accent-blue .about-game-art { background: linear-gradient(135deg, #e1edf8, #d5f4fa); }
+  .about-accent-peach .about-project-art, .about-accent-peach .about-game-art { background: linear-gradient(135deg, #fff0d7, #ffd4b5); }
+  .about-accent-mint .about-project-art, .about-accent-mint .about-game-art { background: linear-gradient(135deg, #ddf7ee, #cfeaf8); }
+
+  :global(html[data-theme="dark"]) .about-showcase { --about-ink: #f6e9ef; --about-muted: #cbb9c2; --about-paper: #1c151b; --about-line: rgba(255, 209, 225, .18); }
+  :global(html[data-theme="dark"]) .about-showcase .about-intro-card { background: linear-gradient(135deg, #482c3a, #4b382d); }
+  :global(html[data-theme="dark"]) .about-showcase .about-quote-card { background: #21191f; }
+  :global(html[data-theme="dark"]) .about-showcase .about-tags span, :global(html[data-theme="dark"]) .about-showcase .about-status { background: rgba(255,255,255,.08); color: #ead7df; border-color: rgba(255,255,255,.15); }
+  :global(html[data-theme="dark"]) .about-showcase .about-project-number { color: rgba(40, 20, 35, .32); }
+  :global(html[data-theme="dark"]) .about-showcase .about-game-art { background: linear-gradient(135deg, #33263d, #263647); }
+  :global(html[data-theme="dark"]) .about-showcase .about-game-art.is-missing::after { background: linear-gradient(135deg, rgba(72,44,58,.96), rgba(43,57,75,.96)); }
+  :global(html[data-theme="dark"]) .about-showcase .about-game-uid { background: rgba(255, 127, 158, .16); }
+  :global(html[data-theme="dark"]) .about-showcase .about-outline-button { color: var(--about-ink); }
+
+  @media (max-width: 1100px) { .about-carousel-track > .about-card { flex-basis: calc((100% - 1.25rem) / 2); } }
+  @media (max-width: 760px) {
+    .about-showcase { max-width: 90vw; padding-top: 6.5rem; }
+    .about-hero, .about-section-heading { display: block; }
+    .about-hero-note, .about-section-heading > p { max-width: none; margin-top: 1rem; text-align: left; }
+    .about-intro { grid-template-columns: 1fr; margin-bottom: 3.5rem; }
+    .about-section { margin-bottom: 3.5rem; }
+    .about-profile-head { display: block; text-align: center; }
+    .about-profile-head h2 { margin-top: 1rem; }
+    .about-avatar { width: 7rem; }
+    .about-social-links { justify-content: center; }
+    .about-carousel { grid-template-columns: auto minmax(0, 1fr) auto; gap: .45rem; }
+    .about-carousel-track > .about-card { flex-basis: 100%; }
+    .about-carousel-arrow { width: 2.2rem; height: 2.2rem; }
+    .about-game-uid-row { gap: .45rem; }
+    .about-game-uid { max-width: 11rem; overflow: hidden; text-overflow: ellipsis; font-size: .7rem; }
+  }
+</style>
+
+<script>
+  const initGameUidToggles = () => {
+    document.querySelectorAll<HTMLButtonElement>("[data-uid-toggle]").forEach((button) => {
+      if (button.dataset.uidReady === "true") return;
+      button.dataset.uidReady = "true";
+      const targetId = button.dataset.uidTarget;
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (!target) return;
+      const showLabel = button.textContent?.trim() || "Show UID";
+      const hideLabel = button.dataset.uidHideLabel || "Hide UID";
+      button.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!expanded));
+        target.hidden = expanded;
+        button.textContent = expanded ? showLabel : hideLabel;
+      });
+    });
+  };
+
+  const initAboutCarousels = () => {
+    document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+      if (carousel.dataset.carouselReady === "true") return;
+      carousel.dataset.carouselReady = "true";
+
+      const track = carousel.querySelector<HTMLElement>(".about-carousel-track");
+      const viewport = carousel.querySelector<HTMLElement>(".about-carousel-viewport");
+      const originalItems = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-item]"));
+      const previous = carousel.querySelector<HTMLButtonElement>(".about-carousel-prev");
+      const next = carousel.querySelector<HTMLButtonElement>(".about-carousel-next");
+      if (!track || !viewport || !originalItems.length || !previous || !next) return;
+
+      let activeIndex = 0;
+      let positionIndex = 0;
+      let timer: number | undefined;
+      let hoverPaused = false;
+      let focusPaused = false;
+      let touchPaused = false;
+      let touchResumeTimer: number | undefined;
+
+      const cloneCount = originalItems.length > 1 ? originalItems.length : 0;
+
+      const markCloneAsInert = (clone: HTMLElement) => {
+        clone.dataset.carouselClone = "true";
+        clone.setAttribute("aria-hidden", "true");
+        clone.setAttribute("inert", "");
+      };
+
+      if (cloneCount > 0) {
+        const before = document.createDocumentFragment();
+        const after = document.createDocumentFragment();
+
+        originalItems.slice(-cloneCount).forEach((item) => {
+          const clone = item.cloneNode(true) as HTMLElement;
+          markCloneAsInert(clone);
+          before.appendChild(clone);
+        });
+        originalItems.slice(0, cloneCount).forEach((item) => {
+          const clone = item.cloneNode(true) as HTMLElement;
+          markCloneAsInert(clone);
+          after.appendChild(clone);
+        });
+
+        track.insertBefore(before, originalItems[0]);
+        track.appendChild(after);
+        positionIndex = cloneCount;
+      }
+
+      const items = Array.from(track.querySelectorAll<HTMLElement>("[data-carousel-item]"));
+
+      const visibleCount = () =>
+        window.matchMedia("(max-width: 760px)").matches
+          ? 1
+          : window.matchMedia("(max-width: 1100px)").matches
+            ? 2
+            : 3;
+
+      const resetTimer = () => {
+        if (timer) window.clearInterval(timer);
+        timer = undefined;
+        if (!hoverPaused && !focusPaused && !touchPaused && items.length > 1) {
+          timer = window.setInterval(() => move(1), 4000);
+        }
+      };
+
+      const update = (animate = true) => {
+        const first = originalItems[0];
+        const styles = getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || "0");
+        const cardWidth = first?.getBoundingClientRect().width || 0;
+        const viewportWidth = viewport.getBoundingClientRect().width;
+        const step = cardWidth + gap;
+        const centeredOffset = positionIndex * step - (viewportWidth - cardWidth) / 2;
+        const maxOffset = Math.max(0, track.scrollWidth - viewportWidth);
+        const offset = Math.min(Math.max(centeredOffset, 0), maxOffset);
+
+        if (!animate) {
+          track.style.transition = "none";
+        } else {
+          track.style.removeProperty("transition");
+        }
+        track.style.transform = `translate3d(-${offset}px, 0, 0)`;
+
+        const visible = visibleCount();
+        const startIndex = Math.round(positionIndex - (visible - 1) / 2);
+        items.forEach((item, index) => {
+          const logicalIndex = originalItems.length > 1
+            ? (index - cloneCount + originalItems.length) % originalItems.length
+            : 0;
+          const isClone = item.dataset.carouselClone === "true";
+          item.classList.toggle("is-active", logicalIndex === activeIndex);
+          item.setAttribute(
+            "aria-hidden",
+            isClone || index < startIndex || index >= startIndex + visible ? "true" : "false",
+          );
+        });
+
+        const hasMultipleItems = originalItems.length > 1;
+        previous.disabled = !hasMultipleItems;
+        next.disabled = !hasMultipleItems;
+
+        if (!animate) {
+          track.offsetHeight;
+          track.style.removeProperty("transition");
+        }
+      };
+
+      const move = (direction: number) => {
+        activeIndex = (activeIndex + direction + originalItems.length) % originalItems.length;
+        positionIndex += direction;
+        update();
+        resetTimer();
+      };
+
+      items.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          hoverPaused = true;
+          resetTimer();
+        });
+        item.addEventListener("mouseleave", () => {
+          hoverPaused = false;
+          resetTimer();
+        });
+      });
+
+      track.addEventListener("transitionend", (event) => {
+        if (event.target !== track || event.propertyName !== "transform" || cloneCount === 0) return;
+        if (positionIndex >= cloneCount && positionIndex < cloneCount + originalItems.length) return;
+
+        positionIndex = cloneCount + activeIndex;
+        update(false);
+      });
+
+      previous.addEventListener("click", () => move(-1));
+      next.addEventListener("click", () => move(1));
+
+      carousel.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "touch") return;
+        touchPaused = true;
+        if (touchResumeTimer) window.clearTimeout(touchResumeTimer);
+        resetTimer();
+      });
+      carousel.addEventListener("pointerup", (event) => {
+        if (event.pointerType !== "touch") return;
+        if (touchResumeTimer) window.clearTimeout(touchResumeTimer);
+        touchResumeTimer = window.setTimeout(() => {
+          touchPaused = false;
+          resetTimer();
+        }, 4000);
+      });
+      carousel.addEventListener("pointercancel", (event) => {
+        if (event.pointerType !== "touch") return;
+        touchPaused = false;
+        resetTimer();
+      });
+      carousel.addEventListener("focusin", () => {
+        focusPaused = true;
+        resetTimer();
+      });
+      carousel.addEventListener("focusout", (event) => {
+        if (!carousel.contains(event.relatedTarget as Node | null)) {
+          focusPaused = false;
+          resetTimer();
+        }
+      });
+      carousel.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          move(-1);
+        }
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          move(1);
+        }
+      });
+
+      window.addEventListener("resize", () => update(false));
+      update(false);
+      resetTimer();
+    });
+  };
+
+  initGameUidToggles();
+  initAboutCarousels();
+  document.addEventListener("astro:page-load", () => {
+    initGameUidToggles();
+    initAboutCarousels();
+  });
+</script>
+
+
+
+
