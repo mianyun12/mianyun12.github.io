@@ -6,9 +6,9 @@ If we view the internet as the sky, blogs are the stars scattered across it. Lin
 
 ```ts
 {
-    name: 'Motues',
-    avatar: 'https://www.motues.top/avatar.jpg',
-    url: 'https://www.motues.top',
-    description: 'Like River!'
+    name: '眠云的山海行记',
+    avatar: '/assets/avatar.jpg',
+    url: 'https://mianyun12.github.io',
+    description: 'Lightning Strike Horizon'
 }
 ```

@@ -33,6 +33,9 @@ export interface Translation {
         readmeEyebrow: string;
         readmeTitle: string;
         readmeDescription: string;
+        readmeCardTitle: string;
+        readmeCardParagraph1: string;
+        readmeCardParagraph2: string;
         playlogEyebrow: string;
         playlogTitle: string;
         playlogDescription: string;

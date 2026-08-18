@@ -118,7 +118,7 @@ if (profileConfig.indexPage) {
               {t("header.home")}
           </a>
           <!-- 归档链接 -->
-          <a href={ archivesPage } class={`transition-colors rounded-lg px-3 py-1 mx-1 hover:text-current ${
+          <a href={ archivesPage } data-astro-reload class={`transition-colors rounded-lg px-3 py-1 mx-1 hover:text-current ${
               Astro.url.pathname === archivesPage 
                   ? 'bg-[var(--button-hover-color)]' 
                   : 'hover:bg-[var(--button-hover-color)]'
@@ -161,7 +161,7 @@ if (profileConfig.indexPage) {
                 <Icon name="fa6-solid:house" class="w-4 h-4 opacity-70" />
                 <span>{t("header.home")}</span>
             </a>
-            <a href={ archivesPage } class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[var(--button-hover-color)] hover:text-[var(--link-color)] transition-colors active:bg-[var(--button-hover-color)] active:text-[var(--link-color)]">
+            <a href={ archivesPage } data-astro-reload class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[var(--button-hover-color)] hover:text-[var(--link-color)] transition-colors active:bg-[var(--button-hover-color)] active:text-[var(--link-color)]">
                 <Icon name="fa6-solid:book-bookmark" class="w-4 h-4 opacity-70" />
                 <span>{t("header.archive")}</span>
             </a>
@@ -192,7 +192,7 @@ if (profileConfig.indexPage) {
                 <ul class="flex flex-col">
                     {categories.map(cat => (
                         <li>
-                            <a href={getRelativeLocaleUrl(currentLang, `/archives/?category=${encodeURIComponent(cat)}`)} class="flex items-center gap-2 pl-6 pr-4 py-2 rounded-lg active:bg-[var(--button-hover-color)] active:text-[var(--link-color)] transition-colors">
+                            <a href={getRelativeLocaleUrl(currentLang, `/archives/?category=${encodeURIComponent(cat)}`)} data-astro-reload class="flex items-center gap-2 pl-6 pr-4 py-2 rounded-lg active:bg-[var(--button-hover-color)] active:text-[var(--link-color)] transition-colors">
                                 <Icon name="fa6-solid:hashtag" class="w-3 h-3 opacity-60" />
                                 <span class="text-sm text-[var(--text-color-70)] active:text-[var(--link-color)]">{cat === 'undefined' ? t("pagecard.uncategorized") : cat}</span>
                             </a>

@@ -6,9 +6,9 @@
 
 ```typescript
 {
-    name: 'Motues',
-    avatar: 'https://www.motues.top/avatar.jpg',
-    url: 'https://www.motues.top',
-    description: 'Like River!'
+    name: '眠云的山海行记',
+    avatar: '/assets/avatar.jpg',
+    url: 'https://mianyun12.github.io',
+    description: 'Lightning Strike Horizon'
 }
 ```

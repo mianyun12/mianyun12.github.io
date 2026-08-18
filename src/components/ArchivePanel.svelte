@@ -17,6 +17,12 @@
   // 提取所有分类并去重
   $: categories = [...new Set(sortedPosts.map(post => post.data.category || 'undefined'))].sort();
 
+  $: categoryCounts = sortedPosts.reduce((counts, post) => {
+    const category = post.data.category || 'undefined';
+    counts[category] = (counts[category] || 0) + 1;
+    return counts;
+  }, {});
+
   // 响应式过滤逻辑 - 特殊处理 undefined 情况
   $: filteredPosts = selectedCategories.length > 0
     ? sortedPosts.filter(post => {
@@ -37,20 +43,19 @@
 
   onMount(() => {
     // 获取初始 URL 参数 - 特殊处理 undefined
-    const params = new URLSearchParams(window.location.search);
-    const categoryParam = params.get('category');
-    
-    // 当参数为 'undefined' 时，专门用于显示未分类文章
-    if (categoryParam === 'undefined') {
-      selectedCategories = ['undefined'];
-    } else if (categoryParam && categoryParam !== 'null') {
-      selectedCategories = categoryParam.split(',');
-    }
+    const syncSelectedCategories = () => {
+      const params = new URLSearchParams(window.location.search);
+      const categoryParam = params.get('category');
+      selectedCategories = categoryParam && categoryParam !== 'null'
+        ? categoryParam.split(',').filter(category => categories.includes(category))
+        : [];
+    };
+
+    syncSelectedCategories();
 
     // 处理浏览器前进/后退
     const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      selectedCategories = params.get('category')?.split(',') || [];
+      syncSelectedCategories();
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -99,28 +104,35 @@
     }
   });
 
-  // 筛选点击逻辑
-  function toggleCategory(cat) {
-    if (cat === null) {
-      selectedCategories = []; // 点击“全部”则清空
-    } else {
-      if (selectedCategories.includes(cat)) {
-        // 如果已选中，则移除
-        selectedCategories = selectedCategories.filter(c => c !== cat);
-      } else {
-        // 如果未选中，则添加
-        selectedCategories = [...selectedCategories, cat];
-      }
+  function getCategoryHref(cat, currentCategories = selectedCategories) {
+    const nextCategories = currentCategories.includes(cat)
+      ? currentCategories.filter(category => category !== cat)
+      : [...currentCategories, cat];
+    const params = new URLSearchParams();
+
+    if (nextCategories.length > 0) {
+      params.set('category', nextCategories.join(','));
     }
 
-    // 更新 URL，方便分享和刷新
+    const archivePath = getRelativeLocaleUrl(currentLang, '/archives/');
+    return params.toString() ? `${archivePath}?${params.toString()}` : archivePath;
+  }
+
+  function toggleCategory(cat) {
+    if (selectedCategories.includes(cat)) {
+      selectedCategories = selectedCategories.filter(category => category !== cat);
+    } else {
+      selectedCategories = [...selectedCategories, cat];
+    }
+
     const url = new URL(window.location);
     if (selectedCategories.length > 0) {
       url.searchParams.set('category', selectedCategories.join(','));
     } else {
       url.searchParams.delete('category');
     }
-    window.history.replaceState({}, '', url);
+    window.history.pushState({}, '', url);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   }
 
 </script>
@@ -130,6 +142,39 @@
         <p class="text-[var(--text-color)] text-3xl py-5 font-bold">{t("header.archive")}</p>
         <p class="text-[var(--text-color-70)] font-bold">{t("cover.subTitle.archive", {count: filteredPosts.length})}</p>
     </div>
+
+    {#if categories.length > 0}
+        <section class="lg:hidden mb-6 rounded-xl border border-[var(--button-border-color)] p-4">
+            <div class="flex items-center gap-2 text-[var(--text-color)] font-bold mb-3">
+                <Icon icon="fa6-solid:hashtag" class="text-xs" />
+                <span>{t("category")}</span>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                {#each categories as cat}
+                    <a
+                        href={getCategoryHref(cat, selectedCategories)}
+                        role="button"
+                        aria-pressed={selectedCategories.includes(cat)}
+                        on:click|preventDefault={() => toggleCategory(cat)}
+                        class="inline-flex items-center px-3 py-1 text-xs rounded-md transition-all border
+                        {selectedCategories.includes(cat)
+                            ? 'bg-[var(--link-color)] text-white border-[var(--link-color)]'
+                            : 'hover:border-[var(--link-color)] border-[var(--button-border-color)] text-[var(--text-color)]'}"
+                    >
+                        <span>{cat === 'undefined' ? t("pagecard.uncategorized") : cat}</span>
+                        <span class="ml-1 inline-flex min-w-5 h-5 items-center justify-center rounded-full px-1 text-[0.7rem] font-mono
+                            {selectedCategories.includes(cat)
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[var(--button-hover-color)] text-[var(--text-color-70)]'}"
+                        >
+                            {categoryCounts[cat] || 0}
+                        </span>
+                    </a>
+                {/each}
+            </div>
+        </section>
+    {/if}
 
     <div class="py-6 mx-auto text-[var(--text-color)]" id="archive-content">
         {#each years as year (year)}
@@ -183,15 +228,25 @@
             <div class="flex flex-wrap gap-2">
                 
                 {#each categories as cat}
-                    <button 
-                        on:click={() => toggleCategory(cat)}
-                        class="px-3 py-1 text-xs rounded-md transition-all border
+                    <a
+                        href={getCategoryHref(cat, selectedCategories)}
+                        role="button"
+                        aria-pressed={selectedCategories.includes(cat)}
+                        on:click|preventDefault={() => toggleCategory(cat)}
+                        class="inline-flex items-center px-3 py-1 text-xs rounded-md transition-all border
                         {selectedCategories.includes(cat) 
                             ? 'bg-[var(--link-color)] text-white border-[var(--link-color)]' 
                             : 'hover:border-[var(--link-color)] border-[var(--button-border-color)] text-[var(--text-color)]'}"
                     >
-                        {cat === 'undefined' ? t("pagecard.uncategorized") : cat}
-                    </button>
+                        <span>{cat === 'undefined' ? t("pagecard.uncategorized") : cat}</span>
+                        <span class="ml-1 inline-flex min-w-5 h-5 items-center justify-center rounded-full px-1 text-[0.7rem] font-mono
+                            {selectedCategories.includes(cat)
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[var(--button-hover-color)] text-[var(--text-color-70)]'}"
+                        >
+                            {categoryCounts[cat] || 0}
+                        </span>
+                    </a>
                 {/each}
             </div>
         </div>

@@ -84,7 +84,7 @@ const isBgMode = siteConfig.theme.postCard.imageMode === "background";
             </p>
             <p class="flex items-center whitespace-nowrap mr-2">
                 <Icon name="fa6-solid:hashtag" class="mr-1"></Icon> 
-                <a href={getRelativeLocaleUrl(currentLang, `/archives/?category=${entry.data.category}`)} class="category-tag">{entry.data.category || t("pagecard.uncategorized")}</a>
+                <a href={getRelativeLocaleUrl(currentLang, `/archives/?category=${entry.data.category}`)} data-astro-reload class="category-tag">{entry.data.category || t("pagecard.uncategorized")}</a>
             </p>
         </div>
     </div>

@@ -1,6 +1,6 @@
 ---
 title: 博客文章管理全流程指南
-pubDate: 2026-08-14
+pubDate: 2026-03-14
 description: 记录本博客系统的文章更新、清理与自动化部署全流程。
 author: 眠云
 slugId: blog-management-guide

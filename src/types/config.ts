@@ -80,8 +80,6 @@ export type AboutConfig = {
     projects: AboutProject[];
     games: AboutGame[];
     readme: {
-        title: string;
-        paragraphs: string[];
         stack: string[];
         href?: string;
     };

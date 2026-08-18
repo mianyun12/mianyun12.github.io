@@ -98,37 +98,18 @@ export const aboutConfig: AboutConfig = {
     ],
     games: [
         { title: "王者荣耀", image: "/assets/games/wangzhe.jpg", uid: "", accent: "lilac" },
-        { title: "崩坏：星穹铁道", image: "/assets/games/starrail.jpg", uid: "", accent: "peach" },
-        { title: "明日方舟", image: "/assets/games/arknights.jpg", uid: "", accent: "blue" },
-        { title: "明日方舟：终末地", image: "/assets/games/endfield.jpg", uid: "", accent: "mint" },
-        { title: "重返未来：1999", image: "/assets/games/reverse1999.jpg", uid: "", accent: "pink" },
-        { title: "鸣潮", image: "/assets/games/wuwa.jpg", uid: "", accent: "blue" },
-        { title: "异环", image: "/assets/games/yihuan.jpg", uid: "", accent: "peach" },
-        { title: "Steam", image: "/assets/games/steam.jpg", uid: "", accent: "lilac" },
-        { title: "洛克王国：世界", image: "/assets/games/roco-world.jpg", uid: "", accent: "mint" },
+        { title: "崩坏：星穹铁道", image: "/assets/games/e837f1753a2b195d9bb8589336e7c025_720.jpg", uid: "128370313", accent: "peach" },
+        { title: "明日方舟", image: "/assets/games/5e0cca5f8ebfa9f0618ae003294df8fa_720.jpg", uid: "86862039", accent: "blue" },
+        { title: "明日方舟：终末地", image: "/assets/games/34bf023e6ebdb94978f8799b349a0982_720.jpg", uid: "1490133132", accent: "mint" },
+        { title: "重返未来：1999", image: "/assets/games/67876c9242e6293eee4ac9c48588aa2a_720.jpg", uid: "117642743", accent: "pink" },
+        { title: "鸣潮", image: "/assets/games/b9fc69a6dd289f2dd1dca4e36a8a06fb_720.jpg", uid: "128134441", accent: "blue" },
+        { title: "异环", image: "/assets/games/560b15b4a714ded853f9a5e5e9068513_720.jpg", uid: "220065568041", accent: "peach" },
+        { title: "Steam", image: "/assets/games/steam.png", uid: "", accent: "lilac" },
+        { title: "洛克王国：世界", image: "/assets/games/0f133c1e4891a7c52a1237562bf8944c_720.jpg", uid: "370469064", accent: "mint" },
     ],
     readme: {
-        title: "眠云",
-        paragraphs: [
-            "这座小屋是一份缓慢生长的代码笔记——数据结构、底层实验、自动化脚本，从环境配置到自动部署都是亲手一行一行搭的(vibecoding)。",
-            "它不是为了完美而存在，是为了在某个深夜里，翻起来还能笑着说一句：\"原来当时是这样写的。\"",
-        ],
         stack: ["Astro", "Momo Theme", "GitHub Actions", "C/C++", "Python"],
     },
 };
 
-export const friendLinkConfig: FriendLink[] = [
-    {
-        name: 'Motues',
-        avatar: 'https://www.motues.top/avatar.jpg',
-        url: 'https://www.motues.top',
-        description: 'Like River!'
-    },
-    {
-        name: 'Astro',
-        avatar: 'https://avatars.githubusercontent.com/u/44914786',
-        url: 'https://astro.build',
-        description: 'Build fast websites, faster.'
-    }
-    // Add more friend links here
-]
+export const friendLinkConfig: FriendLink[] = []

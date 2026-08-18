@@ -165,10 +165,11 @@ const iconName = (icon: string) => icon === "github" ? "fa6-brands:github" : ico
       <p>{t("about.readmeDescription")}</p>
     </div>
     <article class="about-card about-readme-card">
-      <h3>{aboutConfig.readme.title}</h3>
-      {aboutConfig.readme.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <h3>{t("about.readmeCardTitle")}</h3>
+      <p>{t("about.readmeCardParagraph1")}</p>
+      <p>{t("about.readmeCardParagraph2")}</p>
       <hr />
-      <p class="about-stack">{aboutConfig.readme.stack.join("  闂? ")}</p>
+      <p class="about-stack">{aboutConfig.readme.stack.join("  ·  ")}</p>
       {aboutConfig.readme.href && (
         <a class="about-outline-button" href={aboutConfig.readme.href} target={isExternal(aboutConfig.readme.href) ? "_blank" : undefined} rel={isExternal(aboutConfig.readme.href) ? "noreferrer" : undefined}>
           {t("about.details")}
@@ -511,7 +512,5 @@ const iconName = (icon: string) => icon === "github" ? "fa6-brands:github" : ico
     initAboutCarousels();
   });
 </script>
-
-
 
 

@@ -25,7 +25,7 @@ const pageTitle = t("header.archive") + " - " + siteConfig.title;
 
 <MainPageLayout title={pageTitle} lang={currentLang}>
     <ArchivePanel
-        client:only="svelte"
+        client:load
         sortedPosts={allBlogPosts}
         currentLang={currentLang}
         defaultLocale={i18n!.defaultLocale}
