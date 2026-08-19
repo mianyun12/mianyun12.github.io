@@ -1,6 +1,6 @@
-import { readFile, writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { dirname, join } from 'path';
+import { dirname, join, relative, resolve, isAbsolute, sep } from 'path';
 import { fileURLToPath } from 'url';
 
 // 获取命令行参数
@@ -10,8 +10,8 @@ if (args.length < 1) {
     process.exit(1);
 }
 
-const folderPath = args[0];
-const lang = args[1] || 'zh-cn'; // 如果没有提供语言参数，默认使用 zh-cn
+const folderPath = args[0].trim();
+const lang = args[1] || 'zh-cn';
 
 // 确保语言参数有效
 const validLangs = ['en', 'zh-cn'];
@@ -23,10 +23,23 @@ if (!validLangs.includes(lang)) {
 // 定义基础路径
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const basePath = join(__dirname, '..', 'src', 'content', 'blog');
+const basePath = resolve(__dirname, '..', 'src', 'content', 'blog');
 
-// 创建完整路径
-const fullPath = join(basePath, folderPath);
+// 允许传入 docs/test 或 docs/test.md，但始终按文章目录存储。
+const normalizedFolderPath = folderPath.replace(/\\/g, '/').replace(/\.md$/i, '');
+const fullPath = resolve(basePath, normalizedFolderPath);
+const relativePath = relative(basePath, fullPath);
+
+if (
+    !normalizedFolderPath ||
+    !relativePath ||
+    relativePath === '..' ||
+    relativePath.startsWith(`..${sep}`) ||
+    isAbsolute(relativePath)
+) {
+    console.error('Invalid post path: the path must stay inside src/content/blog');
+    process.exit(1);
+}
 
 // 创建文件夹（如果不存在）
 try {
@@ -40,11 +53,14 @@ try {
 // 默认的 Markdown 内容
 const defaultContent = `---
 title: new post
-date: ${new Date().toISOString().split('T')[0]}
+pubDate: ${new Date().toISOString().split('T')[0]}
 description: Some description here
+author: 眠云
 image: ""
+tags: ["随笔"]
+category: "随笔"
 draft: false
-slug: ${folderPath}
+slugId: ${normalizedFolderPath}
 ---
 
 ## Title

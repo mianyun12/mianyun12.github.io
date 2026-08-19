@@ -28,7 +28,7 @@ def create_post():
 
     # 2. 定位项目路径（无论在根目录还是 script 目录运行均能正确定位）
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(script_dir, ".."))
+    project_root = script_dir
     blog_dir = os.path.join(project_root, "src", "content", "blog", title)
     file_path = os.path.join(blog_dir, "zh-cn.md")
 

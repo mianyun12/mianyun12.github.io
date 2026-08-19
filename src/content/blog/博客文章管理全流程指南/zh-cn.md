@@ -4,7 +4,7 @@ pubDate: 2026-03-14
 description: 记录本博客系统的文章更新、清理与自动化部署全流程。
 author: 眠云
 slugId: blog-management-guide
-image: "./cover.jpg"
+image: "./cover.webp"
 tags: ["指南"]
 category: "指南"
 draft: false
@@ -59,7 +59,7 @@ git push
 
 操作步骤：
 
-1. **放置图片**：将你的封面图片（如 `cover.jpg`、`banner.png`）直接放到对应文章的文件夹内。
+1. **放置图片**：将你的封面图片（如 `cover.webp`、`banner.png`）直接放到对应文章的文件夹内。
    - 例如：`src/content/blog/你的文章名称/cover.jpg`
 2. **在 Frontmatter 中声明**：打开该文章的 `zh-cn.md`，在顶部的 `---` 区域添加 `image` 字段：
 
@@ -70,7 +70,7 @@ pubDate: 2026-05-20
 description: 记录本博客系统的文章更新、清理与自动化部署全流程。
 author: 眠云
 slugId: blog-management-guide
-image: "./cover.jpg"      # 👈 本地图片直接写相对路径（或写在线外链 https://...）
+image: "./cover.webp"      # 👈 本地图片直接写相对路径（或写在线外链 https://...）
 tags: ["指南"]
 category: "指南"
 draft: false
@@ -88,7 +88,7 @@ draft: false
 
 **方式一：同目录相对路径（最推荐，跟随文章一起管理）**
 
-![](./zh-cn.assets/657ab64284876b47a9f1e394ab1ee844187345532.png)
+![](./zh-cn.assets/657ab64284876b47a9f1e394ab1ee844187345532.webp)
 
 - **做法**：将正文插图直接放在文章文件夹内，或者在文章文件夹里建一个 `images/` 子文件夹。
 
@@ -99,7 +99,7 @@ draft: false
     ```
     src/content/blog/你的文章名称/
     ├── zh-cn.md
-    ├── cover.jpg
+    ├── cover.webp
     └── images/
         └── demo.png
     ```
@@ -116,7 +116,7 @@ draft: false
 
 
 
-- ![](./zh-cn.assets/e2bf0bf30631a062a89a77a08d32d7a7187345532.jpg)**做法**：将图片放到项目根目录的 `public/images/` 下（如 `public/images/avatar.png`)。
+- ![](./zh-cn.assets/e2bf0bf30631a062a89a77a08d32d7a7187345532.webp)**做法**：将图片放到项目根目录的 `public/images/` 下（如 `public/images/avatar.png`)。
 
 - **正文语法**：
 
@@ -128,7 +128,7 @@ draft: false
 
 **方式三：在线图床 / 网页外链**
 
-![](./zh-cn.assets/f72ebd66e68bd8629e5f5b2d7e3edf3c187345532.png)
+![](./zh-cn.assets/f72ebd66e68bd8629e5f5b2d7e3edf3c187345532.webp)
 
 - **正文语法**：
 

@@ -55,7 +55,29 @@ Momo 取自小红书📕，每个新用户最初的昵称，象征着初始新�
 | `pnpm build` | 构建发布版本到 `./dist` 目录下 |
 | `pnpm preview` | 预览构建后的发布版本 |
 | `pnpm astro ...` | 运行 `astro` 命令，例如 `astro add` |
-| `pnpm newpost <path> <lang>` | 创建新文章，例如 `pnpm newpost docs/test.md zh-cn`，语言可以省略，默认为`zh-cn` |
+| `pnpm newpost <path> [lang]` | 创建新文章，例如 `pnpm newpost docs/test.md zh-cn`；路径末尾的 `.md` 可省略，语言可省略，默认为 `zh-cn`。文件会生成到 `src/content/blog/<path>/<lang>.md` |
+| `python newpost.py <title>` | 使用文章标题创建中文文章，例如 `python newpost.py "我的新文章"`；文件会生成到 `src/content/blog/<title>/zh-cn.md` |
+
+### 图片压缩
+
+项目提供 `compress_images.py` 将博客中的 JPG、JPEG 和 PNG 压缩为 WebP，并自动更新 Markdown 和 frontmatter 中的本地图片引用。原始图片会保留，只有 WebP 确实更小时才会替换引用。
+
+```shell
+# 递归压缩整个博客目录
+python compress_images.py
+
+# 只处理指定文章目录或图片
+python compress_images.py src/content/blog/你的文章
+python compress_images.py image.png
+
+# 常用选项
+python compress_images.py --quality 75
+python compress_images.py --overwrite
+python compress_images.py --dry-run
+python compress_images.py --no-update-refs
+```
+
+默认输出 WebP 质量为 82。脚本需要 Pillow，可使用 `python -m pip install Pillow` 安装。
 
 
 ## 📚 参考
