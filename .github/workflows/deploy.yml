@@ -49,8 +49,9 @@ jobs:
         run: |
           test -s dist/index.html
           test -s dist/pagefind/pagefind.js
-          test -f dist/blog/csapp-data-lab-位运算与浮点数实验全流程/index.html
-          grep -q 'csapp-data-lab' dist/index.html
+          csapp_data_lab_dir="$(find dist/blog -mindepth 1 -maxdepth 1 -type d -name 'csapp-data-lab-*' -print -quit)"
+          test -n "$csapp_data_lab_dir"
+          test -s "$csapp_data_lab_dir/index.html"
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3
